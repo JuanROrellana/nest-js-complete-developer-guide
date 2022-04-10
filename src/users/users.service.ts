@@ -14,14 +14,17 @@ export class UsersService {
   }
 
   async findOne(id: number) {
+    if (!id) {
+      return null;
+    }
     const user = await this.repo.findOne(id);
     if (!user) {
-      return new NotFoundException('User not Found');
+      return new NotFoundException("User not Found");
     }
     return user;
   }
 
-  find(email: string) {
+  async find(email: string) {
     return this.repo.find({ email: email });
   }
 
