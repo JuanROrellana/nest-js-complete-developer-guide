@@ -73,3 +73,15 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
     postgres
 
 ```
+
+## Migrations
+Generate a new Migration
+
+```angular2html
+npm run typeorm migration:create -- -n initialSchema -o
+```
+
+Execute migrations
+```
+npm run typeorm migration:run
+```
