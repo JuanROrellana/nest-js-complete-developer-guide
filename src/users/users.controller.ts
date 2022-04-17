@@ -53,7 +53,6 @@ export class UsersController {
 
   @Get("/:id")
   findUser(@Param("id") id: string) {
-    console.log("handler running");
     return this.userService.findOne(parseInt(id));
   }
 
