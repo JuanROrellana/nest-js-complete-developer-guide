@@ -1,4 +1,4 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ReportsModule } from "./reports/reports.module";
@@ -7,6 +7,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./users/user.entity";
 import { Report } from "./reports/report.entity";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+const cookieSession = require('cookie-session');
 
 @Module({
   imports: [ReportsModule, UsersModule,
@@ -23,7 +24,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
           port: 5432,
           username: "postgres",
           password: "postgres",
-          database: config.get<string>('DB_NAME'),
+          database: config.get<string>("DB_NAME"),
           entities: [User, Report],
           synchronize: true
         };
@@ -34,4 +35,9 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
   providers: [AppService]
 })
 export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(cookieSession({
+      keys: ['New cookie session data']
+    })).forRoutes("*");
+  }
 }
